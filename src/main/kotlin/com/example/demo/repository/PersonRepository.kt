@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.Query
 
 /*MongoRepository interface comes with many operations, including standard CRUD operations
  *You can define other queries as needed by simply declaring their method signature.
+ *No need implementation, just one interface, and you have CRUD, thanks Spring Data
  */
 interface PersonRepository : MongoRepository<Person, String> {
 
@@ -20,4 +21,6 @@ interface PersonRepository : MongoRepository<Person, String> {
     fun findByFirstName(firstName: String?): List<Person>
 
     fun findByName(name: Name?): List<Person>
+
+    fun findFirstByName(name: Name?): Person?
 }

@@ -1,5 +1,6 @@
 package com.example.demo.data_class
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -11,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 class Person {
 
     @Id
-    private var id: String? = null
+    var id: String? = null
 
     var name: Name? = null
     var isEarning: Boolean = false
