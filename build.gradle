@@ -1,0 +1,75 @@
+buildscript {
+	ext {
+		kotlinVersion = '1.2.70'
+		springBootVersion = '2.1.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+        //jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+	}
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'kotlin-jpa'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+//Kotlin compiler is configured to generate Java 8 bytecode
+sourceCompatibility = 1.8
+compileKotlin {
+	kotlinOptions {
+        /*
+		* Kotlin support for JSR 305 annotations + Spring nullability annotations provide null-safety for the whole
+		* Spring Framework API to Kotlin developers, with the advantage of dealing with null related issues at compile time.
+		* This feature can be enabled by adding the -Xjsr305 compiler flag with the strict options.
+		*/
+		freeCompilerArgs = ["-Xjsr305=strict"]
+        //Kotlin compiler is configured to generate Java 8 bytecode
+		jvmTarget = "1.8"
+	}
+}
+compileTestKotlin {
+	kotlinOptions {
+		freeCompilerArgs = ["-Xjsr305=strict"]
+		jvmTarget = "1.8"
+	}
+}
+
+repositories {
+	mavenCentral()
+    //jcenter()
+}
+
+
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+	implementation('org.springframework.boot:spring-boot-starter-mustache')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+
+
+    runtimeOnly('com.h2database:h2')
+
+    /*jackson-module-kotlin adds support for serialization/deserialization of Kotlin classes and data classes
+     *(single constructor classes can be used automatically, and those with secondary constructors or static
+     * factories are also supported)
+     */
+    implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
+    //Java 8 variant of Kotlin standard library
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    //Kotlin reflection library (mandatory as of Spring Framework 5)
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
